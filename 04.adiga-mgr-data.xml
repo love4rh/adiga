@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<crawlegoProject version="1.0">
+	<settings>
+		<params>
+		</params>
+	</settings>
+
+	<macros>
+		<macro name="YEAR" class="com.lge.crawlego.macro.DefinedValue">
+			<param name="value"><![CDATA[2023]]></param>
+		</macro>
+	</macros>
+
+
+
+	<inputNodes>
+		<inputNode name="SCORE" type="FILE">
+			<path><![CDATA[./data/$(YEAR)-ipsi-raw1.txt]]></path>
+			<params>
+				<param name="fetchType"><![CDATA[LOCAL]]></param>
+			</params>
+			<columns>
+				<column name="대학코드" type="string" />
+				<column name="학과코드" type="string" />
+				<column name="데이터코드" type="string" />
+				<column name="데이터종류" type="string" />
+				<column name="전형방법 코드" type="string" />
+				<column name="전형방법" type="string" />
+				<column name="전형명칭" type="string" />
+				<column name="평가방법" type="string" />
+				<column name="모집인원" type="string" />
+				<column name="전년도 모집인원" type="string" />
+				<column name="50% 등급컷" type="string" />
+				<column name="부가데이터정보" type="string" />
+				<column name="부가데이터점수" type="string" />
+				<column name="부가데이터등급" type="string" />
+				<column name="70% Cut 수능 점수" type="string" />
+				<column name="평균 백분위 70% Cut" type="string" />
+				<column name="영어 등급 Cut" type="string" />
+			</columns>
+			<ui>
+				<position x="100" y="166" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</inputNode>
+
+		<inputNode name="DIVISION" type="FILE">
+			<path><![CDATA[./data/$(YEAR)-division.txt]]></path>
+			<params>
+				<param name="fetchType"><![CDATA[LOCAL]]></param>
+			</params>
+			<columns>
+				<column name="대학코드" type="string" />
+				<column name="모집정원" type="integer" />
+				<column name="학과코드" type="string" />
+				<column name="계열" type="string" />
+				<column name="학과명" type="string" />
+				<column name="수시 경쟁률" type="string" />
+				<column name="정시 경쟁률" type="string" />
+			</columns>
+			<ui>
+				<position x="100" y="274" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</inputNode>
+
+		<inputNode name="UNIV" type="FILE">
+			<path><![CDATA[./data/$(YEAR)-univercity.txt]]></path>
+			<params>
+				<param name="fetchType"><![CDATA[LOCAL]]></param>
+			</params>
+			<columns>
+				<column name="I_ID_UNIVLIST" type="integer" />
+				<column name="대학코드" type="string" />
+				<column name="대학교명" type="string" />
+				<column name="대학교별명칭" type="string" />
+				<column name="지역코드" type="string" />
+				<column name="지역명" type="string" />
+				<column name="입학정원" type="string" />
+				<column name="취업률" type="real" />
+				<column name="평균 등록금(천원)" type="real" />
+				<column name="schlship" type="real" />
+				<column name="기숙사 수용률" type="real" />
+				<column name="수시 경쟁률" type="real" />
+				<column name="정시 경쟁률" type="real" />
+				<column name="설치 학과 개수" type="integer" />
+				<column name="전형 개수" type="integer" />
+			</columns>
+			<ui>
+				<position x="100" y="382" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</inputNode>
+
+		<inputNode name="RESULT" type="FILE">
+			<path><![CDATA[./data/$(YEAR)-ipsi-raw2.txt]]></path>
+			<params>
+				<param name="fetchType"><![CDATA[LOCAL]]></param>
+			</params>
+			<columns>
+				<column name="대학코드" type="string" />
+				<column name="학과코드" type="string" />
+				<column name="데이터코드" type="string" />
+				<column name="데이터종류" type="string" />
+				<column name="전형방법 코드" type="string" />
+				<column name="전형방법" type="string" />
+				<column name="전형명칭" type="string" />
+				<column name="모집인원" type="string" />
+				<column name="전년도 모집인원" type="string" />
+				<column name="충원인원" type="string" />
+				<column name="경쟁률" type="string" />
+				<column name="50% 등급컷" type="string" />
+				<column name="부가데이터정보" type="string" />
+				<column name="부가데이터점수" type="string" />
+				<column name="부가데이터등급" type="string" />
+				<column name="70% Cut 수능 점수" type="string" />
+				<column name="평균 백분위 70% Cut" type="string" />
+				<column name="영어 등급 Cut" type="string" />
+			</columns>
+			<ui>
+				<position x="238" y="66" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</inputNode>
+	</inputNodes>
+
+
+	<dataProcessing>
+		<processingElem type="merge">
+			<dataSources>
+				<dataSource alias="A2"><![CDATA[DIVISION]]></dataSource>
+				<dataSource alias="A4"><![CDATA[SUMUP_RESULTS]]></dataSource>
+			</dataSources>
+			<dataGroupName><![CDATA[ADD_DIV_INFO]]></dataGroupName>
+			<ui>
+				<position x="238" y="274" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<joinMethod>outer</joinMethod>
+			<addKeyColumn>false</addKeyColumn>
+			<joinKeys>
+				<joinKey source="DIVISION"><![CDATA[대학코드,학과코드]]></joinKey>
+				<joinKey source="SUMUP_RESULTS"><![CDATA[대학코드,학과코드]]></joinKey>
+			</joinKeys>
+			<selectColumns>
+				<columns source="DIVISION"><![CDATA[대학코드,모집정원,학과코드,계열,학과명]]></columns>
+				<columns source="SUMUP_RESULTS"><![CDATA[데이터코드,데이터종류,전형방법 코드,전형방법,전형명칭,평가방법,모집인원,전년도 모집인원,충원인원,경쟁률,50% 등급컷,부가데이터정보,부가데이터점수,부가데이터등급,70% Cut 수능 점수,평균 백분위 70% Cut,영어 등급 Cut]]></columns>
+			</selectColumns>
+			<!-- add rename element to rename selected column(s)
+			<renameMap><rename source="dataSrouce" column="columnName to be changed">new name</rename> ... </renameMap>
+			-->
+		</processingElem>
+
+		<processingElem type="merge">
+			<dataSources>
+				<dataSource alias="A1"><![CDATA[ADD_DIV_INFO]]></dataSource>
+				<dataSource alias="A2"><![CDATA[UNIV]]></dataSource>
+			</dataSources>
+			<dataGroupName><![CDATA[ADD_UNIV_INFO]]></dataGroupName>
+			<ui>
+				<position x="237" y="381" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<joinMethod>outer</joinMethod>
+			<addKeyColumn>false</addKeyColumn>
+			<joinKeys>
+				<joinKey source="ADD_DIV_INFO"><![CDATA[대학코드]]></joinKey>
+				<joinKey source="UNIV"><![CDATA[대학코드]]></joinKey>
+			</joinKeys>
+			<selectColumns>
+				<columns source="ADD_DIV_INFO"><![CDATA[*]]></columns>
+				<columns source="UNIV"><![CDATA[대학교명,대학교별명칭,지역명,입학정원,취업률,평균 등록금(천원),기숙사 수용률,수시 경쟁률,정시 경쟁률,설치 학과 개수,전형 개수]]></columns>
+			</selectColumns>
+			<renameMap>
+				<rename source="UNIV" column="수시 경쟁률"><![CDATA[수시 경쟁률(전체)]]></rename>
+				<rename source="UNIV" column="정시 경쟁률"><![CDATA[정시 경쟁률(전체)]]></rename>
+			</renameMap>
+		</processingElem>
+
+		<processingElem type="orderAndFilter">
+			<dataSource alias="A1"><![CDATA[SORT_DATA]]></dataSource>
+			<dataGroupName><![CDATA[SCORE_DATA]]></dataGroupName>
+			<ui>
+				<position x="395" y="382" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<orderAndFilter>
+				<column>대학교명</column>
+				<column>대학교별명칭</column>
+				<column>대학코드</column>
+				<column>지역명</column>
+				<column>학과코드</column>
+				<column>계열</column>
+				<column>학과명</column>
+				<column>데이터종류</column>
+				<column>전형방법 코드</column>
+				<column>전형방법</column>
+				<column>전형명칭</column>
+				<column>평가방법</column>
+				<column toName="전형별 모집인원">모집인원</column>
+				<column>전년도 모집인원</column>
+				<column>50% 등급컷</column>
+				<column>부가데이터정보</column>
+				<column>부가데이터점수</column>
+				<column>부가데이터등급</column>
+				<column>70% Cut 수능 점수</column>
+				<column>평균 백분위 70% Cut</column>
+				<column>영어 등급 Cut</column>
+				<column toName="학과별 모집정원">모집정원</column>
+				<column>입학정원</column>
+				<column>수시 경쟁률(전체)</column>
+				<column>정시 경쟁률(전체)</column>
+				<column>취업률</column>
+				<column>평균 등록금(천원)</column>
+				<column>기숙사 수용률</column>
+				<column>설치 학과 개수</column>
+				<column>전형 개수</column>
+				<column>충원인원</column>
+				<column>경쟁률</column>
+			</orderAndFilter>
+		</processingElem>
+
+		<processingElem type="select">
+			<dataSource alias="A1"><![CDATA[ADD_DF]]></dataSource>
+			<dataGroupName><![CDATA[SUSI_SCORE]]></dataGroupName>
+			<ui>
+				<position x="639" y="320" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<condition><![CDATA[FIND({데이터종류}, '수시') = 1]]></condition>
+		</processingElem>
+
+		<processingElem type="select">
+			<dataSource alias="A1"><![CDATA[ADD_DF]]></dataSource>
+			<dataGroupName><![CDATA[JUNG_SCORE]]></dataGroupName>
+			<ui>
+				<position x="640" y="453" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<condition><![CDATA[FIND({데이터종류}, '정시') = 1 AND NOT ISNULL({영어 등급 Cut})]]></condition>
+		</processingElem>
+
+		<processingElem type="merge">
+			<dataSources>
+				<dataSource alias="A1"><![CDATA[SCORE]]></dataSource>
+				<dataSource alias="A2"><![CDATA[RESULT]]></dataSource>
+			</dataSources>
+			<dataGroupName><![CDATA[SUMUP_RESULTS]]></dataGroupName>
+			<ui>
+				<position x="238" y="167" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<joinMethod>outer</joinMethod>
+			<addKeyColumn>false</addKeyColumn>
+			<joinKeys>
+				<joinKey source="RESULT"><![CDATA[대학코드,학과코드,전형방법 코드,전형명칭]]></joinKey>
+				<joinKey source="SCORE"><![CDATA[대학코드,학과코드,전형방법 코드,전형명칭]]></joinKey>
+			</joinKeys>
+			<selectColumns>
+				<columns source="RESULT"><![CDATA[충원인원,경쟁률,50% 등급컷,부가데이터정보,부가데이터점수,부가데이터등급,70% Cut 수능 점수,평균 백분위 70% Cut,영어 등급 Cut]]></columns>
+				<columns source="SCORE"><![CDATA[대학코드,학과코드,데이터코드,데이터종류,전형방법 코드,전형방법,전형명칭,평가방법,모집인원,전년도 모집인원]]></columns>
+			</selectColumns>
+			<!-- add rename element to rename selected column(s)
+			<renameMap><rename source="dataSrouce" column="columnName to be changed">new name</rename> ... </renameMap>
+			-->
+		</processingElem>
+
+		<processingElem type="orderAndFilter">
+			<dataSource alias="A1"><![CDATA[JUNG_SCORE]]></dataSource>
+			<dataGroupName><![CDATA[JUNGSI_REPORT]]></dataGroupName>
+			<ui>
+				<position x="783" y="453" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<orderAndFilter>
+				<column>대학교별명칭</column>
+				<column>계열</column>
+				<column>학과명</column>
+				<column>전형방법</column>
+				<column>전형명칭</column>
+				<column>평가방법</column>
+				<column>내년 모집인원</column>
+				<column>금년 모집인원</column>
+				<column>충원인원</column>
+				<column>충원률</column>
+				<column toName="경쟁률">경쟁률(N)</column>
+				<column>70% Cut 수능 점수</column>
+				<column>평균 백분위 70% Cut</column>
+				<column>영어 등급 Cut</column>
+				<column>학과별 모집정원</column>
+				<column>입학정원</column>
+				<column>취업률</column>
+				<column>평균 등록금(천원)</column>
+				<column>기숙사 수용률</column>
+				<column>대학코드</column>
+				<column>지역명</column>
+				<column>학과코드</column>
+			</orderAndFilter>
+		</processingElem>
+
+		<processingElem type="orderAndFilter">
+			<dataSource alias="A1"><![CDATA[SUSI_SCORE]]></dataSource>
+			<dataGroupName><![CDATA[SUSI_REPORT]]></dataGroupName>
+			<ui>
+				<position x="781" y="319" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<orderAndFilter>
+				<column>대학교별명칭</column>
+				<column>계열</column>
+				<column>학과명</column>
+				<column>전형방법</column>
+				<column>전형명칭</column>
+				<column>평가방법</column>
+				<column>내년 모집인원</column>
+				<column>금년 모집인원</column>
+				<column>충원인원</column>
+				<column>충원률</column>
+				<column toName="경쟁률">경쟁률(N)</column>
+				<column toName="50%등급컷">50%등급컷(N)</column>
+				<column toName="70%점수컷">70%점수컷(N)</column>
+				<column toName="70%등급컷">70%등급컷(N)</column>
+				<column>학과별 모집정원</column>
+				<column>입학정원</column>
+				<column>취업률</column>
+				<column>평균 등록금(천원)</column>
+				<column>기숙사 수용률</column>
+				<column>대학코드</column>
+				<column>지역명</column>
+				<column>학과코드</column>
+			</orderAndFilter>
+		</processingElem>
+
+		<processingElem type="sort">
+			<dataSource alias="A1"><![CDATA[ADD_UNIV_INFO]]></dataSource>
+			<dataGroupName><![CDATA[SORT_DATA]]></dataGroupName>
+			<ui>
+				<position x="309" y="459" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<sortColumns>
+				<column order="ascending">대학교별명칭</column>
+				<column order="ascending">계열</column>
+				<column order="ascending">학과명</column>
+			</sortColumns>
+		</processingElem>
+
+		<processingElem type="derived">
+			<dataSource alias="A1"><![CDATA[SCORE_DATA]]></dataSource>
+			<dataGroupName><![CDATA[ADD_DF]]></dataGroupName>
+			<ui>
+				<position x="505" y="381" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<addColumns>
+				<derivedColumn name="내년 모집인원"><![CDATA[IIF(ISNULL({전형별 모집인원}), 0,
+  IIF( FIND({전형별 모집인원}, "미지정") > 0, 0, INT({전형별 모집인원}, 0))
+)]]></derivedColumn>
+				<derivedColumn name="금년 모집인원"><![CDATA[IIF(ISNULL({전년도 모집인원}), 0,
+  IIF( FIND({전년도 모집인원}, "미지정") > 0, 0, INT({전년도 모집인원}, 0))
+)]]></derivedColumn>
+				<derivedColumn name="50%등급컷(N)"><![CDATA[REAL(SUBSTR({50% 등급컷}, 1, LENGTH({50% 등급컷}) -1), -1)]]></derivedColumn>
+				<derivedColumn name="70%등급컷(N)"><![CDATA[REAL(SUBSTR({부가데이터등급}, 1, LENGTH({부가데이터등급}) - 1), -1)]]></derivedColumn>
+				<derivedColumn name="70%점수컷(N)"><![CDATA[REAL({부가데이터점수}, -1)]]></derivedColumn>
+				<derivedColumn name="충원률"><![CDATA[REAL({충원인원}, 0) / {금년 모집인원} * 100]]></derivedColumn>
+				<derivedColumn name="경쟁률(N)"><![CDATA[IIF( FIND({경쟁률}, " : 1") > 0, SUBSTR({경쟁률}, 1, LENGTH({경쟁률}) - 4), {경쟁률})]]></derivedColumn>
+			</addColumns>
+		</processingElem>
+	</dataProcessing>
+
+	<dataLoadings>
+		<dataLoading name="SAVE_SUSI" source="SUSI_REPORT" type="file">
+			<filePath><![CDATA[./result/$(YEAR)-susi.txt]]></filePath>
+			<remainFinFile><![CDATA[false]]></remainFinFile>
+			<finFile><![CDATA[]]></finFile>
+			<ui>
+				<position x="921" y="325" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataLoading>
+
+		<dataLoading name="SAVE_JUNGSI" source="JUNGSI_REPORT" type="file">
+			<filePath><![CDATA[./result/$(YEAR)-jungsi.txt]]></filePath>
+			<remainFinFile><![CDATA[false]]></remainFinFile>
+			<finFile><![CDATA[]]></finFile>
+			<ui>
+				<position x="924" y="457" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataLoading>
+
+	</dataLoadings>
+</crawlegoProject>

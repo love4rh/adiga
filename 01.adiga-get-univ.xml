@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<crawlegoProject version="1.0">
+	<settings>
+		<params>
+		</params>
+	</settings>
+
+	<macros>
+		<macro name="YEAR" class="com.lge.crawlego.macro.DefinedValue">
+			<param name="value"><![CDATA[2023]]></param>
+		</macro>
+	</macros>
+
+
+	<dataGroups name="UNIVFETCH">
+		<fetchMethod name="UNIVFETCH">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/eipUnivInfGnrlList.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[pageIndex=1&pageSize=250&univ_se_cd=10&univ_sort=UP&area_sort=&main_search_at=&gnrlKeyword=&stdr_sch_year=&search_cnd_grp_sn=&search_cnd_stdr_at=&uv_type=on&sch_year=$(YEAR)&univ_nm=&lst_area_cd=%&chk_area=%&lst_elsm_cd=%&chk_elsm=%&lst_fond_se_cd=%&chk_fond=%&lst_empymn_cd=&chk_empymn=&lst_tutfee_cd=&chk_tutfee=&lst_dght_se_cd=%&chk_dght_all=%]]></bodyData>
+			<ui>
+				<position x="81" y="76" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>auto</runType>
+
+		<dataGroup name="UNIVLIST">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="대학교명" type="string">
+					<path>~/univ_nm</path>
+				</value>
+				<value name="대학교별명칭" type="string">
+					<path>~/univ_all_nm</path>
+				</value>
+				<value name="지역코드" type="string">
+					<path>~/area_cd</path>
+				</value>
+				<value name="지역명" type="string">
+					<path>~/area_nm</path>
+				</value>
+				<value name="입학정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="취업률" type="string">
+					<path>~/empymn_rt</path>
+				</value>
+				<value name="평균 등록금(천원)" type="string">
+					<path>~/tutfee</path>
+				</value>
+				<value name="schlship" type="string">
+					<path>~/schlship</path>
+				</value>
+				<value name="기숙사 수용률" type="string">
+					<path>~/brhs_aceptnc_rt</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+				<value name="설치 학과 개수" type="string">
+					<path>~/instl_subjct</path>
+				</value>
+				<value name="전형 개수" type="string">
+					<path>~/selctn_inf</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="241" y="76" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+
+	<dataLoadings>
+		<dataLoading name="SAVE_UNIV" source="UNIVLIST" type="file">
+			<filePath><![CDATA[./data/$(YEAR)-univercity.txt]]></filePath>
+			<remainFinFile><![CDATA[false]]></remainFinFile>
+			<finFile><![CDATA[]]></finFile>
+			<ui>
+				<position x="398" y="77" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataLoading>
+
+	</dataLoadings>
+</crawlegoProject>

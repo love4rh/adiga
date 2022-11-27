@@ -1,0 +1,1031 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<crawlegoProject version="1.0">
+	<settings>
+		<params>
+		</params>
+	</settings>
+
+	<macros>
+		<macro name="YEAR" class="com.lge.crawlego.macro.DefinedValue">
+			<param name="value"><![CDATA[2023]]></param>
+		</macro>
+	</macros>
+
+
+	<dataGroups name="UNIVFETCH">
+		<fetchMethod name="UNIVFETCH">
+			<type>FILE</type>
+			<path><![CDATA[./data/$(YEAR)-univercity.txt]]></path>
+			<parsingType>PLAIN</parsingType>
+			<ignoreError>false</ignoreError>
+			<header>
+			</header>
+			<bodyData><![CDATA[]]></bodyData>
+			<ui>
+				<position x="77" y="92" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>auto</runType>
+
+		<dataGroup name="UNIVLIST">
+			<description><![CDATA[]]></description>
+			<path>/vroot</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/2</path>
+				</value>
+				<value name="대학교명" type="string">
+					<path>~/3</path>
+				</value>
+				<value name="대학교별명칭" type="string">
+					<path>~/4</path>
+				</value>
+				<value name="지역코드" type="string">
+					<path>~/5</path>
+				</value>
+				<value name="지역명" type="string">
+					<path>~/6</path>
+				</value>
+				<value name="입학정원" type="string">
+					<path>~/7</path>
+				</value>
+				<value name="취업률" type="string">
+					<path>~/8</path>
+				</value>
+				<value name="평균 등록금(천원)" type="string">
+					<path>~/9</path>
+				</value>
+				<value name="schlship" type="string">
+					<path>~/10</path>
+				</value>
+				<value name="기숙사 수용률" type="string">
+					<path>~/11</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/12</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/13</path>
+				</value>
+				<value name="설치 학과 개수" type="string">
+					<path>~/14</path>
+				</value>
+				<value name="전형 개수" type="string">
+					<path>~/15</path>
+				</value>
+			</propValues>
+			<dataEvents>
+				<dataEvent to="DIVFETCH01">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH02">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH03">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH04">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH05">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH06">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH07">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH08">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH09">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH10">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH11">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH12">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH13">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH14">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+				<dataEvent to="DIVFETCH15">
+					<param name="(UCD)">대학코드</param>
+				</dataEvent>
+			</dataEvents>
+			<ui>
+				<position x="198" y="91" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH01">
+		<fetchMethod name="DIVFETCH01">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=1&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="373" y="92" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST01">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="473" y="92" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH02">
+		<fetchMethod name="DIVFETCH02">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=2&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="188" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST02">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="188" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH03">
+		<fetchMethod name="DIVFETCH03">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=3&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="288" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST03">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="288" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH04">
+		<fetchMethod name="DIVFETCH04">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=4&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="388" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST04">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="388" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH05">
+		<fetchMethod name="DIVFETCH05">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=5&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="488" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST05">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="488" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH06">
+		<fetchMethod name="DIVFETCH06">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=6&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="588" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST06">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="588" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH07">
+		<fetchMethod name="DIVFETCH07">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=7&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="688" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST07">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="688" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH08">
+		<fetchMethod name="DIVFETCH08">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=8&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="788" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST08">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="788" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH09">
+		<fetchMethod name="DIVFETCH09">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=9&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="888" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST09">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="888" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH10">
+		<fetchMethod name="DIVFETCH10">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=10&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="988" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST10">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="988" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH11">
+		<fetchMethod name="DIVFETCH11">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=11&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="1088" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST11">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="1088" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH12">
+		<fetchMethod name="DIVFETCH12">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=12&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="1188" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST12">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="1188" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH13">
+		<fetchMethod name="DIVFETCH13">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=13&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="1288" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST13">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="1288" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH14">
+		<fetchMethod name="DIVFETCH14">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=14&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="1388" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST14">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="1388" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+	<dataGroups name="DIVFETCH15">
+		<fetchMethod name="DIVFETCH15">
+			<type>HTTP</type>
+			<path><![CDATA[https://www.adiga.kr/kcue/ast/eip/eis/inf/univinf/selectInstlSubjctMajor.do?p_menu_id=undefined]]></path>
+			<parsingType>JSON</parsingType>
+			<ignoreError>false</ignoreError>
+			<params>
+				<param name="requestMethod"><![CDATA[POST]]></param>
+			</params>
+			<header>
+				<param name="Content-Type"><![CDATA[application/x-www-form-urlencoded; charset=UTF-8]]></param>
+			</header>
+			<bodyData><![CDATA[sch_year=$(YEAR)&univ_cd=(UCD)&pageIndex=15&rcu_cd=&sel_year=$(YEAR)&sel_sers=%]]></bodyData>
+			<ui>
+				<position x="369" y="1488" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</fetchMethod>
+
+		<runType>event</runType>
+
+		<dataGroup name="DIVLIST15">
+			<description><![CDATA[]]></description>
+			<path>/resultList</path>
+			<parent />
+			<propValues>
+				<value name="대학코드" type="string">
+					<path>~/univ_cd</path>
+				</value>
+				<value name="모집정원" type="string">
+					<path>~/rcnp</path>
+				</value>
+				<value name="학과코드" type="string">
+					<path>~/rcu_cd</path>
+				</value>
+				<value name="계열" type="string">
+					<path>~/sers_nm</path>
+				</value>
+				<value name="학과명" type="string">
+					<path>~/cmmn_subjct_nm</path>
+				</value>
+				<value name="수시 경쟁률" type="string">
+					<path>~/atrcr_cmpet_rt</path>
+				</value>
+				<value name="정시 경쟁률" type="string">
+					<path>~/ftrc_cmpet_rt</path>
+				</value>
+			</propValues>
+			<ui>
+				<position x="469" y="1488" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataGroup>
+	</dataGroups>
+
+
+	<dataProcessing>
+		<processingElem type="append">
+			<dataSources>
+				<dataSource alias="A1"><![CDATA[DIVLIST01]]></dataSource>
+				<dataSource alias="A2"><![CDATA[DIVLIST02]]></dataSource>
+				<dataSource alias="A3"><![CDATA[DIVLIST03]]></dataSource>
+				<dataSource alias="A4"><![CDATA[DIVLIST04]]></dataSource>
+				<dataSource alias="A5"><![CDATA[DIVLIST05]]></dataSource>
+				<dataSource alias="A6"><![CDATA[DIVLIST06]]></dataSource>
+				<dataSource alias="A7"><![CDATA[DIVLIST07]]></dataSource>
+				<dataSource alias="A8"><![CDATA[DIVLIST08]]></dataSource>
+				<dataSource alias="A9"><![CDATA[DIVLIST10]]></dataSource>
+				<dataSource alias="A10"><![CDATA[DIVLIST11]]></dataSource>
+				<dataSource alias="A11"><![CDATA[DIVLIST12]]></dataSource>
+				<dataSource alias="A12"><![CDATA[DIVLIST13]]></dataSource>
+				<dataSource alias="A13"><![CDATA[DIVLIST14]]></dataSource>
+				<dataSource alias="A14"><![CDATA[DIVLIST15]]></dataSource>
+			</dataSources>
+			<dataGroupName><![CDATA[UNIV_DIV_ALL]]></dataGroupName>
+			<ui>
+				<position x="722" y="91" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<appendMethod>first</appendMethod>
+			<!-- includeSource - 0: no source column, 1: numeric source column, 2: source name column -->
+			<includeSource>0</includeSource>
+			<sourceColumnName><![CDATA[]]></sourceColumnName>
+		</processingElem>
+
+		<processingElem type="select">
+			<dataSource alias="A1"><![CDATA[VALID_COLUMNS]]></dataSource>
+			<dataGroupName><![CDATA[ONLY_VALID]]></dataGroupName>
+			<ui>
+				<position x="889" y="91" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<condition><![CDATA[NOT ISIN(NVL({대학코드}, "NA"), "NA", "")]]></condition>
+		</processingElem>
+
+		<processingElem type="orderAndFilter">
+			<dataSource alias="A1"><![CDATA[UNIV_DIV_ALL]]></dataSource>
+			<dataGroupName><![CDATA[VALID_COLUMNS]]></dataGroupName>
+			<ui>
+				<position x="810" y="187" />
+				<description><![CDATA[]]></description>
+			</ui>
+			<orderAndFilter>
+				<column>대학코드</column>
+				<column>모집정원</column>
+				<column>학과코드</column>
+				<column>계열</column>
+				<column>학과명</column>
+				<column>수시 경쟁률</column>
+				<column>정시 경쟁률</column>
+			</orderAndFilter>
+		</processingElem>
+	</dataProcessing>
+
+	<dataLoadings>
+		<dataLoading name="SAVE_UNIV_DIV" source="ONLY_VALID" type="file">
+			<filePath><![CDATA[./data/$(YEAR)-division.txt]]></filePath>
+			<remainFinFile><![CDATA[false]]></remainFinFile>
+			<finFile><![CDATA[]]></finFile>
+			<ui>
+				<position x="888" y="274" />
+				<description><![CDATA[]]></description>
+			</ui>
+		</dataLoading>
+
+	</dataLoadings>
+</crawlegoProject>
